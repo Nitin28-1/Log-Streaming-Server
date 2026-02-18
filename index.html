@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-Time Log Viewer</title>
+</head>
+<body>
+  <h2>Live Logs</h2>
+  <div id="logs"></div>
+
+  <script>
+    const logContainer = document.getElementById("logs");
+
+    const eventSource = new EventSource("http://localhost:8001/logs");
+
+    eventSource.onmessage = function(event) {
+      const newLog = document.createElement("p");
+      newLog.textContent = event.data;
+      logContainer.appendChild(newLog);
+    };
+
+    eventSource.onerror = function() {
+      console.log("Connection lost");
+    };
+  </script>
+</body>
+</html>
